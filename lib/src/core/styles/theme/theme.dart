@@ -1,3 +1,4 @@
+import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/theme/custom/text_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     //appBarTheme: LAppBarTheme.lightAppBarTheme,
-    //colorScheme: LColorSchemeTheme.lightColorScheme,
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.yellow),
     textTheme: AppTextTheme.whiteTheme,
     // inputDecorationTheme: LTextFieldTheme.lightTextFieldTheme,
     // elevatedButtonTheme: LElevatedButtonTheme.lightElevatedButtonTheme,

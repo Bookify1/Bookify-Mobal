@@ -1,20 +1,12 @@
 import 'package:bookify/src/core/components/button_submit.dart';
 import 'package:bookify/src/core/components/text_field_form.dart';
-import 'package:bookify/src/core/router/app_rout_enum.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
-
-  @override
-  State<SignInPage> createState() => _SignInPageState();
-}
-
-class _SignInPageState extends State<SignInPage> {
-  bool rememberMe = false;
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   Widget textForm({
     required String label,
@@ -43,7 +35,7 @@ class _SignInPageState extends State<SignInPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               textForm(
-                label: 'Bem vindo! 👋',
+                label: 'Cads! 👋',
                 color: AppColors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: AppFontSize.xxxLarge,
@@ -72,11 +64,9 @@ class _SignInPageState extends State<SignInPage> {
                   Row(
                     children: [
                       Checkbox(
-                        value: rememberMe,
+                        value: true,
                         onChanged: (bool? value) {
-                          setState(() {
-                            rememberMe = value ?? false;
-                          });
+                          // Adicionar funcionalidade ao checkbox
                         },
                       ),
                       textForm(
@@ -116,9 +106,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      AppRouteEnum currentPath = AppRouteEnum.signup;
-                      String routePath = currentPath.name;
-                      Navigator.pushReplacementNamed(context, routePath);
+                      // Adicionar funcionalidade para o botão de cadastro
                     },
                     child: textForm(
                       label: "Cadastre-se",

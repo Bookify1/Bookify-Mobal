@@ -1,4 +1,5 @@
 import 'package:bookify/src/core/router/router.dart';
+import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/theme/theme.dart';
 import 'package:bookify/src/features/intro/presenter/pages/intro_page.dart';
 import 'package:device_preview/device_preview.dart';
