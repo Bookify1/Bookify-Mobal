@@ -6,6 +6,7 @@ class TextFieldForm extends StatelessWidget {
   final String labelText;
   final String hintText;
   final bool obscureText;
+  final bool enabled;
   final Widget? suffixIcon;
 
   const TextFieldForm({
@@ -13,12 +14,14 @@ class TextFieldForm extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     this.obscureText = false,
+    this.enabled = true,
     this.suffixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: labelText,
