@@ -1,10 +1,10 @@
 import 'package:bookify/src/core/components/button_submit.dart';
+import 'package:bookify/src/core/components/text_app.dart';
 import 'package:bookify/src/core/components/text_field_form.dart';
 import 'package:bookify/src/core/router/app_rout_enum.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -16,22 +16,6 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   bool rememberMe = false;
 
-  Widget textForm({
-    required String label,
-    required Color color,
-    FontWeight fontWeight = FontWeight.w400,
-    double fontSize = AppFontSize.medium,
-  }) {
-    return Text(
-      label,
-      style: GoogleFonts.poppins(
-        color: color,
-        fontWeight: fontWeight,
-        fontSize: fontSize,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +26,7 @@ class _SignInPageState extends State<SignInPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              textForm(
+              const TextApp(
                 label: 'Bem vindo! 👋',
                 color: AppColors.black,
                 fontWeight: FontWeight.bold,
@@ -79,7 +63,7 @@ class _SignInPageState extends State<SignInPage> {
                           });
                         },
                       ),
-                      textForm(
+                      const TextApp(
                         label: 'Lembrar de mim',
                         color: AppColors.black,
                         fontWeight: FontWeight.w500,
@@ -90,7 +74,7 @@ class _SignInPageState extends State<SignInPage> {
                     onPressed: () {
                       // Adicionar funcionalidade para "Esqueceu sua senha?"
                     },
-                    child: textForm(
+                    child: const TextApp(
                       label: 'Esqueceu sua senha?',
                       color: AppColors.red,
                       fontWeight: FontWeight.w500,
@@ -109,7 +93,7 @@ class _SignInPageState extends State<SignInPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  textForm(
+                  const TextApp(
                     label: 'Não possui uma conta?',
                     color: AppColors.black,
                     fontWeight: FontWeight.w500,
@@ -120,7 +104,7 @@ class _SignInPageState extends State<SignInPage> {
                       String routePath = currentPath.name;
                       Navigator.pushReplacementNamed(context, routePath);
                     },
-                    child: textForm(
+                    child: const TextApp(
                       label: "Cadastre-se",
                       color: AppColors.blue,
                       fontWeight: FontWeight.w500,

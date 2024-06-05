@@ -6,6 +6,7 @@ class TextFieldForm extends StatelessWidget {
   final String labelText;
   final String hintText;
   final bool obscureText;
+  final bool enabled;
   final Widget? suffixIcon;
 
   const TextFieldForm({
@@ -13,21 +14,25 @@ class TextFieldForm extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     this.obscureText = false,
+    this.enabled = true,
     this.suffixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
-        labelStyle: const TextStyle(
-          color: AppColors.gray,
+        labelStyle: TextStyle(
+          color: enabled ? AppColors.gray : Colors.white70,
           fontWeight: FontWeight.w400,
           fontSize: AppFontSize.large,
         ),
+        filled: !enabled,
+        fillColor: !enabled ? AppColors.gray : null,
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(10),
@@ -52,7 +57,7 @@ class TextFieldForm extends StatelessWidget {
           ),
           borderSide: BorderSide(
             width: 1.5,
-            color: AppColors.black,
+            color: AppColors.gray,
           ),
         ),
         suffixIcon: suffixIcon,
