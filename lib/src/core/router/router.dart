@@ -25,14 +25,15 @@ class AppRouter {
       // Signin Page
       case '/signin':
         return MaterialPageRoute(
-          settings: RouteSettings(name: settings.name),
+          settings:
+              RouteSettings(name: settings.name, arguments: settings.arguments),
           builder: (_) => const SignInPage(),
         );
       // Signup Page
       case '/signup':
         return MaterialPageRoute(
           settings: RouteSettings(name: settings.name),
-          builder: (_) => const SignUpPage(),
+          builder: (_) => SignUpPage(),
         );
 
       default:
