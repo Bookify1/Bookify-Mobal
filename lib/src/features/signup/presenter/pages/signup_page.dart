@@ -1,118 +1,137 @@
 import 'package:bookify/src/core/components/button_submit.dart';
-import 'package:bookify/src/core/components/text_field_form.dart';
+import 'package:bookify/src/core/components/text_app.dart';
+import 'package:bookify/src/core/router/app_rout_enum.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
+import 'package:bookify/src/features/signup/presenter/components/build_progress_indicator.dart';
+import 'package:bookify/src/features/signup/presenter/pages/account_page.dart';
+import 'package:bookify/src/features/signup/presenter/pages/details_account_page.dart';
+import 'package:bookify/src/features/signup/presenter/pages/location_info_page.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
 
-  Widget textForm({
-    required String label,
-    required Color color,
-    FontWeight fontWeight = FontWeight.w400,
-    double fontSize = AppFontSize.medium,
-  }) {
-    return Text(
-      label,
-      style: GoogleFonts.poppins(
-        color: color,
-        fontWeight: fontWeight,
-        fontSize: fontSize,
-      ),
-    );
+class _SignUpPageState extends State<SignUpPage> {
+  late final Map<String, Widget> _dynamicWidgets;
+
+  int _step = 1;
+  int _remainingSteps = 3;
+
+  @override
+  void initState() {
+    super.initState();
+    _dynamicWidgets = const {
+      'Informações': DetailsAccountPage(),
+      'Localização': LocationPage(),
+      'Conta': AccountPage(),
+
+      //'Aceite os termos': YourCustomWidget3(),
+      //'Confirme seus dados': YourCustomWidget3(),
+    };
+  }
+
+  void nextStep() {
+    if (_step < _dynamicWidgets.length) {
+      setState(() {
+        _step++;
+        _remainingSteps--;
+      });
+    }
+  }
+
+  void backStep() {
+    if (_step > 1) {
+      setState(() {
+        _step--;
+        _remainingSteps++;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: EdgeInsets.all(30),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              textForm(
-                label: 'Cads! 👋',
-                color: AppColors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: AppFontSize.xxxLarge,
-              ),
-              const SizedBox(height: 32),
-              const TextFieldForm(
-                labelText: 'Email',
-                hintText: 'exemplo@gmail.com',
-              ),
-              const SizedBox(height: 16),
-              TextFieldForm(
-                labelText: 'Senha',
-                hintText: 'Sua senha',
-                obscureText: true,
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.visibility),
-                  onPressed: () {
-                    // Adicionar funcionalidade para alternar a visibilidade da senha
-                  },
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Positioned(
+                          left: 0,
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_back_ios),
+                            onPressed: backStep,
+                          ),
+                        ),
+                        Center(
+                          child: TextApp(
+                            label: _dynamicWidgets.keys.elementAt(_step - 1),
+                            color: AppColors.black,
+                            fontSize: AppFontSize.xxxLarge,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    TextApp(
+                      label: 'Step $_step of ${_remainingSteps + _step}',
+                      color: AppColors.black,
+                    ),
+                    const SizedBox(height: 8),
+                    BuildProgressIndicator(
+                      step: _step,
+                      remainingSteps: _remainingSteps,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              SizedBox(
+                height: .6.sh - 28,
+                child: _dynamicWidgets.values.elementAt(_step - 1),
+              ),
+              Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: ButtonSubmitForm(
+                      label: 'Continuar',
+                      function: nextStep,
+                    ),
+                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Checkbox(
-                        value: true,
-                        onChanged: (bool? value) {
-                          // Adicionar funcionalidade ao checkbox
-                        },
-                      ),
-                      textForm(
-                        label: 'Lembrar de mim',
+                      const TextApp(
+                        label: 'Possui uma conta?',
                         color: AppColors.black,
                         fontWeight: FontWeight.w500,
                       ),
+                      TextButton(
+                        onPressed: () {
+                          AppRouteEnum currentPath = AppRouteEnum.signin;
+                          String routePath = currentPath.name;
+                          Navigator.pushReplacementNamed(context, routePath);
+                        },
+                        child: const TextApp(
+                          label: "Entre",
+                          color: AppColors.blue,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ],
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // Adicionar funcionalidade para "Esqueceu sua senha?"
-                    },
-                    child: textForm(
-                      label: 'Esqueceu sua senha?',
-                      color: AppColors.red,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              ButtonSubmitForm(
-                label: 'Entre',
-                function: () {
-                  // Adicionar funcionalidade para o botão de login
-                },
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  textForm(
-                    label: 'Não possui uma conta?',
-                    color: AppColors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // Adicionar funcionalidade para o botão de cadastro
-                    },
-                    child: textForm(
-                      label: "Cadastre-se",
-                      color: AppColors.blue,
-                      fontWeight: FontWeight.w500,
-                    ),
                   ),
                 ],
               ),
