@@ -5,8 +5,10 @@ import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
 import 'package:bookify/src/features/signup/presenter/components/build_progress_indicator.dart';
 import 'package:bookify/src/features/signup/presenter/pages/account_page.dart';
+import 'package:bookify/src/features/signup/presenter/pages/verification_account_page.dart';
 import 'package:bookify/src/features/signup/presenter/pages/details_account_page.dart';
 import 'package:bookify/src/features/signup/presenter/pages/location_info_page.dart';
+import 'package:bookify/src/features/signup/presenter/pages/terms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,16 +21,17 @@ class _SignUpPageState extends State<SignUpPage> {
   late final Map<String, Widget> _dynamicWidgets;
 
   int _step = 1;
-  int _remainingSteps = 3;
+  int _remainingSteps = 4;
 
   @override
   void initState() {
     super.initState();
-    _dynamicWidgets = const {
+    _dynamicWidgets = {
       'Informações': DetailsAccountPage(),
       'Localização': LocationPage(),
       'Conta': AccountPage(),
-
+      'Verificação': VerificationCodePage(),
+      'Termos': TermsPage(),
       //'Aceite os termos': YourCustomWidget3(),
       //'Confirme seus dados': YourCustomWidget3(),
     };
