@@ -7,6 +7,7 @@ class TextApp extends StatelessWidget {
   final Color color;
   final FontWeight fontWeight;
   final double fontSize;
+  final TextAlign alignment;
 
   const TextApp({
     super.key,
@@ -14,15 +15,18 @@ class TextApp extends StatelessWidget {
     required this.color,
     this.fontWeight = FontWeight.w400,
     this.fontSize = AppFontSize.medium,
+    this.alignment = TextAlign.left,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       label,
+      textAlign: alignment,
       style: GoogleFonts.poppins(
         color: color,
         fontWeight: fontWeight,
+        letterSpacing: 0,
         fontSize: fontSize,
       ),
     );

@@ -26,11 +26,13 @@ class TextFieldForm extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
-        labelStyle: const TextStyle(
-          color: AppColors.gray,
+        labelStyle: TextStyle(
+          color: enabled ? AppColors.gray : Colors.white70,
           fontWeight: FontWeight.w400,
           fontSize: AppFontSize.large,
         ),
+        filled: !enabled,
+        fillColor: !enabled ? AppColors.gray : null,
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(10),
@@ -55,7 +57,7 @@ class TextFieldForm extends StatelessWidget {
           ),
           borderSide: BorderSide(
             width: 1.5,
-            color: AppColors.black,
+            color: AppColors.gray,
           ),
         ),
         suffixIcon: suffixIcon,
