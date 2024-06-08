@@ -36,7 +36,7 @@ class PopularBookWidget extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: 20),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

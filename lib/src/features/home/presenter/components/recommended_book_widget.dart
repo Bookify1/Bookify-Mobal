@@ -35,7 +35,7 @@ class RecommendedBookWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 20),
         TextApp(
           label: title,
           fontSize: AppFontSize.large,
