@@ -86,7 +86,9 @@ class _SignInPageState extends State<SignInPage> {
               ButtonSubmitForm(
                 label: 'Entre',
                 function: () {
-                  // Adicionar funcionalidade para o botão de login
+                  AppRouteEnum currentPath = AppRouteEnum.home;
+                  String routePath = currentPath.name;
+                  Navigator.pushReplacementNamed(context, routePath);
                 },
               ),
               const SizedBox(height: 16),

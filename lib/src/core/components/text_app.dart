@@ -23,6 +23,7 @@ class TextApp extends StatelessWidget {
     return Text(
       label,
       textAlign: alignment,
+      overflow: TextOverflow.ellipsis,
       style: GoogleFonts.poppins(
         color: color,
         fontWeight: fontWeight,
