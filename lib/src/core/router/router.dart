@@ -1,5 +1,6 @@
 import 'package:bookify/src/features/home/presenter/page/home_page.dart';
 import 'package:bookify/src/features/intro/presenter/pages/intro_page.dart';
+import 'package:bookify/src/features/main/presenter/pages/main_page.dart';
 import 'package:bookify/src/features/signin/presenter/pages/signin_page.dart';
 import 'package:bookify/src/features/signup/presenter/pages/signup_page.dart';
 import 'package:bookify/src/features/welcome/presenter/pages/welcome_page.dart';
@@ -40,7 +41,7 @@ class AppRouter {
       case '/home':
         return MaterialPageRoute(
           settings: RouteSettings(name: settings.name),
-          builder: (_) => HomePage(),
+          builder: (_) => MainPage(),
         );
       default:
         return MaterialPageRoute(
