@@ -1,7 +1,8 @@
 import 'package:bookify/src/core/styles/app_colors.dart';
+import 'package:bookify/src/features/favorites/presenter/page/favorites_page.dart';
 import 'package:bookify/src/features/home/presenter/page/home_page.dart';
-import 'package:bookify/src/features/main/components/custom_app_bar.dart';
-import 'package:bookify/src/features/main/components/custom_bottom_navigation_bar.dart';
+import 'package:bookify/src/features/main/presenter/components/custom_app_bar.dart';
+import 'package:bookify/src/features/main/presenter/components/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +17,7 @@ class _MainPageState extends State<MainPage> {
   int index = 0;
   final screens = [
     const HomePage(),
-    const Center(child: Text('Search')),
+    const FavoritesPage(),
     const Center(child: Text('Search2')),
     const Center(child: Text('Search3')),
     const Center(child: Text('Search3')),
@@ -33,6 +34,7 @@ class _MainPageState extends State<MainPage> {
         children: [
           Positioned(
             height: 1.sh,
+            width: 1.sw,
             child: Image.asset(
               'assets/images/bg.png',
               fit: BoxFit.fitHeight,

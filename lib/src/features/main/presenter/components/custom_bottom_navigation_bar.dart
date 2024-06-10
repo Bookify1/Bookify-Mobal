@@ -1,7 +1,7 @@
 import 'package:bookify/src/core/styles/app_font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
-import 'package:bookify/src/features/main/components/build_bottom_navigatorbar_item.dart';
+import 'package:bookify/src/features/main/presenter/components/build_bottom_navigatorbar_item.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int index;

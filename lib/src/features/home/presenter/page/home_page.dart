@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: 1.sh,
+          minWidth: 1.sw,
         ),
         child: const Padding(
           padding: EdgeInsets.only(
