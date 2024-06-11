@@ -47,13 +47,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              TextApp(
+              const TextApp(
                 label: 'Seus favoritos',
                 fontSize: AppFontSize.xxxLarge,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
                 color: AppColors.black,
               ),
-              SizedBox(height: 36),
+              const SizedBox(height: 36),
               FavoriteBooksSection(
                 addCartAction: addCart,
                 toggleFavoriteAction: toggleFavorite,
