@@ -1,9 +1,15 @@
 import 'package:bookify/src/core/components/text_app.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
+import 'package:bookify/src/features/favorites/presenter/widgets/bookify_button.dart';
 import 'package:flutter/material.dart';
 
-Widget FavoriteBookWidget({bool? isFavorite}) {
+Widget favoriteBookWidget({
+  required bool isFavorite,
+  required bool onCart,
+  required VoidCallback addCart,
+  required VoidCallback toggleFavorite,
+}) {
   return Row(
     children: [
       Container(
@@ -26,7 +32,7 @@ Widget FavoriteBookWidget({bool? isFavorite}) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextApp(
@@ -35,7 +41,7 @@ Widget FavoriteBookWidget({bool? isFavorite}) {
                   fontWeight: FontWeight.w600,
                   color: AppColors.black,
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 TextApp(
                   label: 'Suzy Menkes ',
                   color: AppColors.gray,
@@ -43,52 +49,44 @@ Widget FavoriteBookWidget({bool? isFavorite}) {
               ],
             ),
             const SizedBox(height: 22),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.yellow,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: TextApp(
-                    label: '4.5',
-                    color: AppColors.black,
-                    fontSize: AppFontSize.small,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                TextApp(
-                  label: 'Avaliação',
-                  color: AppColors.gray,
-                  fontSize: AppFontSize.small,
-                ),
-              ],
-            ),
+            bookifyButton(),
           ],
         ),
       ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            icon: isFavorite!
-                ? Icon(
-                    Icons.bookmark,
-                    color: AppColors.yellow,
-                  )
-                : Icon(Icons.bookmark_border),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.add_shopping_cart_outlined),
-            onPressed: () {},
-          ),
-        ],
+      SizedBox(
+        height: 105,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: isFavorite
+                  ? const Icon(
+                      Icons.bookmark,
+                      color: AppColors.yellow,
+                    )
+                  : const Icon(Icons.bookmark_border),
+              onPressed: toggleFavorite,
+            ),
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: onCart ? AppColors.red : AppColors.green,
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: IconButton(
+                icon: Icon(
+                  size: 13,
+                  color: AppColors.white,
+                  onCart
+                      ? Icons.remove_shopping_cart_outlined
+                      : Icons.add_shopping_cart_outlined,
+                ),
+                onPressed: addCart,
+              ),
+            ),
+          ],
+        ),
       ),
     ],
   );

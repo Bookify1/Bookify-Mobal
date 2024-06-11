@@ -5,8 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends StatefulWidget {
   const FavoritesPage({super.key});
+
+  @override
+  State<FavoritesPage> createState() => _FavoritesPageState();
+}
+
+class _FavoritesPageState extends State<FavoritesPage> {
+  List<bool> isFavoriteList = List<bool>.filled(10, true);
+  List<bool> onCartList = List<bool>.filled(10, false);
+
+  void toggleFavorite(int index) {
+    setState(() {
+      isFavoriteList[index] = !isFavoriteList[index];
+    });
+  }
+
+  void addCart(int index) {
+    setState(() {
+      onCartList[index] = !onCartList[index];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +54,12 @@ class FavoritesPage extends StatelessWidget {
                 color: AppColors.black,
               ),
               SizedBox(height: 36),
-              FavoriteBooksSection()
+              FavoriteBooksSection(
+                addCartAction: addCart,
+                toggleFavoriteAction: toggleFavorite,
+                isFavoriteList: isFavoriteList,
+                onCartList: onCartList,
+              ),
             ],
           ),
         ),
