@@ -59,15 +59,30 @@ class PopularBookWidget extends StatelessWidget {
               ),
               const SizedBox(height: 22),
               Row(
-                children: List.generate(5, (index) {
-                  return Icon(
-                    Icons.star_rounded,
-                    color: index < rating.round()
-                        ? AppColors.yellow
-                        : AppColors.lightWhite,
-                    size: 20,
-                  );
-                }),
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.yellow,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const TextApp(
+                      label: '4.5',
+                      color: AppColors.black,
+                      fontSize: AppFontSize.small,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const TextApp(
+                    label: 'Avaliação',
+                    color: AppColors.gray,
+                    fontSize: AppFontSize.small,
+                  ),
+                ],
               ),
             ],
           ),
