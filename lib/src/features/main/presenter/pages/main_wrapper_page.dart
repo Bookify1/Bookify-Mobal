@@ -1,27 +1,33 @@
 import 'package:bookify/src/core/styles/app_colors.dart';
-import 'package:bookify/src/features/favorites/presenter/page/favorites_page.dart';
-import 'package:bookify/src/features/home/presenter/page/home_page.dart';
 import 'package:bookify/src/features/main/presenter/components/custom_app_bar.dart';
-import 'package:bookify/src/features/main/presenter/components/custom_bottom_navigation_bar.dart';
+import 'package:bookify/src/features/bottombar/presenter/view/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final StatefulNavigationShell navigationShell;
+  const MainPage({
+    super.key,
+    required this.navigationShell,
+  });
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  int index = 0;
-  final screens = [
-    const HomePage(),
-    const FavoritesPage(),
-    const Center(child: Text('Search2')),
-    const Center(child: Text('Search3')),
-    const Center(child: Text('Search3')),
-  ];
+  int selectedIndex = 0;
+
+  void _goBranch(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+    widget.navigationShell.goBranch(
+      index,
+      initialLocation: index == widget.navigationShell.currentIndex,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +46,13 @@ class _MainPageState extends State<MainPage> {
               fit: BoxFit.fitHeight,
             ),
           ),
-          screens[index],
+          widget.navigationShell,
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        index: index,
+        index: selectedIndex,
         onTap: (int index) {
-          setState(() {
-            this.index = index;
-          });
+          _goBranch(index);
         },
       ),
     );
