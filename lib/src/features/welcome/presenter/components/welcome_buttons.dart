@@ -3,6 +3,7 @@ import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomeButtons extends StatelessWidget {
   const WelcomeButtons({super.key});
@@ -16,7 +17,7 @@ class WelcomeButtons extends StatelessWidget {
           onPressed: () {
             AppRouteEnum currentPath = AppRouteEnum.signin;
             String routePath = currentPath.name;
-            Navigator.pushNamed(context, routePath);
+            context.push(routePath);
           },
           style: ElevatedButton.styleFrom(
             elevation: 0,
@@ -38,7 +39,7 @@ class WelcomeButtons extends StatelessWidget {
           onPressed: () {
             AppRouteEnum currentPath = AppRouteEnum.signup;
             String routePath = currentPath.name;
-            Navigator.pushNamed(context, routePath);
+            context.push(routePath);
           },
           style: ElevatedButton.styleFrom(
             elevation: 0,

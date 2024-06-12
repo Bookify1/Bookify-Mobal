@@ -5,6 +5,7 @@ import 'package:bookify/src/core/router/app_rout_enum.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -88,7 +89,7 @@ class _SignInPageState extends State<SignInPage> {
                 function: () {
                   AppRouteEnum currentPath = AppRouteEnum.home;
                   String routePath = currentPath.name;
-                  Navigator.pushReplacementNamed(context, routePath);
+                  context.pushReplacement(routePath);
                 },
               ),
               const SizedBox(height: 16),
@@ -104,7 +105,7 @@ class _SignInPageState extends State<SignInPage> {
                     onPressed: () {
                       AppRouteEnum currentPath = AppRouteEnum.signup;
                       String routePath = currentPath.name;
-                      Navigator.pushReplacementNamed(context, routePath);
+                      context.pushReplacement(routePath);
                     },
                     child: const TextApp(
                       label: "Cadastre-se",
