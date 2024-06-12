@@ -11,8 +11,11 @@ import 'package:bookify/src/features/signup/presenter/pages/location_info_page.d
 import 'package:bookify/src/features/signup/presenter/pages/terms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -126,7 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         onPressed: () {
                           AppRouteEnum currentPath = AppRouteEnum.signin;
                           String routePath = currentPath.name;
-                          Navigator.pushReplacementNamed(context, routePath);
+                          context.pushReplacement(routePath);
                         },
                         child: const TextApp(
                           label: "Entre",

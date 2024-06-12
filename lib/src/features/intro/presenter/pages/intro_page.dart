@@ -6,6 +6,7 @@ import 'package:bookify/src/features/intro/presenter/components/slide.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
@@ -18,7 +19,7 @@ class _IntroPageState extends State<IntroPage> {
   void refresh() async {
     AppRouteEnum currentPath = AppRouteEnum.welcome;
     String routePath = currentPath.name;
-    Navigator.pushNamed(context, routePath);
+    context.push(routePath);
   }
 
   int activeIndex = 0;
