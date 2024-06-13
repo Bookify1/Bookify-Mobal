@@ -1,3 +1,4 @@
+import 'package:bookify/src/features/bookLoans/presenter/pages/book_loans_page.dart';
 import 'package:bookify/src/features/favorites/presenter/page/favorites_page.dart';
 import 'package:bookify/src/features/home/presenter/page/home_page.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class AppNavigation {
   // Private favorites Page
   static final _rootNavigatorFavorite =
       GlobalKey<NavigatorState>(debugLabel: 'shellFavorites');
+  static final _rootNavigatorBookLoans =
+      GlobalKey<NavigatorState>(debugLabel: 'shellBookLoans');
 
   // GoRouter configuration
   static final GoRouter router = GoRouter(
@@ -85,6 +88,17 @@ class AppNavigation {
                 name: "Favorites",
                 builder: (BuildContext context, GoRouterState state) =>
                     const FavoritesPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _rootNavigatorBookLoans,
+            routes: [
+              GoRoute(
+                path: "/bookloans",
+                name: "BookLoans",
+                builder: (BuildContext context, GoRouterState state) =>
+                    const BookLoansPage(),
               ),
             ],
           )

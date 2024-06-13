@@ -1,4 +1,4 @@
-enum AppRouteEnum { intro, welcome, signin, signup, home, favorites }
+enum AppRouteEnum { intro, welcome, signin, signup, home, favorites, bookLoans }
 
 extension AppRouteExtension on AppRouteEnum {
   String get name {
@@ -15,6 +15,8 @@ extension AppRouteExtension on AppRouteEnum {
         return "/home";
       case AppRouteEnum.favorites:
         return "/favorites";
+      case AppRouteEnum.bookLoans:
+        return "/bookloans";
       default:
         return "/";
     }
