@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       backgroundColor: AppColors.white,
-      appBar: widget.navigationShell.currentIndex == 3
+      appBar: widget.navigationShell.currentIndex == 4
           ? null
           : const CustomAppBar(),
       body: Stack(

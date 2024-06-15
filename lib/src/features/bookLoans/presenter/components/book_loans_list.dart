@@ -22,7 +22,7 @@ class BookLoansList extends StatelessWidget {
       },
       itemCount: 5,
       separatorBuilder: (context, index) {
-        return const SizedBox(height: 26);
+        return const SizedBox(height: 8);
       },
     );
   }
