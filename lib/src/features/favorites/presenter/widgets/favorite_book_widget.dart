@@ -48,7 +48,7 @@ Widget favoriteBookWidget({
                 ),
               ],
             ),
-            const SizedBox(height: 22),
+            const SizedBox(height: 13),
             bookifyButton(),
           ],
         ),

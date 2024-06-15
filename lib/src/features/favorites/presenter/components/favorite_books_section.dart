@@ -22,7 +22,7 @@ class FavoriteBooksSection extends StatelessWidget {
       itemCount: isFavoriteList.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (context, index) => const SizedBox(height: 26),
+      separatorBuilder: (context, index) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
         return favoriteBookWidget(
           isFavorite: isFavoriteList[index],
