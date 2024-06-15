@@ -1,4 +1,5 @@
 import 'package:bookify/src/features/bookLoans/presenter/pages/book_loans_page.dart';
+import 'package:bookify/src/features/bookify/presenter/pages/bookify_page.dart';
 import 'package:bookify/src/features/favorites/presenter/page/favorites_page.dart';
 import 'package:bookify/src/features/home/presenter/page/home_page.dart';
 import 'package:bookify/src/features/settings/presenter/pages/pages/settings_page.dart';
@@ -26,6 +27,9 @@ class AppNavigation {
   // Private BookLoans Page
   static final _rootNavigatorBookLoans =
       GlobalKey<NavigatorState>(debugLabel: 'shellBookLoans');
+  // Private Cart Page
+  static final _rootNavigatorBookify =
+      GlobalKey<NavigatorState>(debugLabel: 'shellBookify');
   // Private Settings Page
   static final _rootNavigatorSettings =
       GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
@@ -104,6 +108,17 @@ class AppNavigation {
                 name: "BookLoans",
                 builder: (BuildContext context, GoRouterState state) =>
                     const BookLoansPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _rootNavigatorBookify,
+            routes: [
+              GoRoute(
+                path: "/bookify",
+                name: "Bookify",
+                builder: (BuildContext context, GoRouterState state) =>
+                    const BookifyPage(),
               ),
             ],
           ),

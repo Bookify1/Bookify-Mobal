@@ -8,7 +8,7 @@ Widget bookifyButton() {
       backgroundColor: AppColors.black,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 8),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(5),
       ),
     ),
     onPressed: () {},
