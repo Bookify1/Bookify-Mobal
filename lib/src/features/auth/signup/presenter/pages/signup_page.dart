@@ -3,12 +3,12 @@ import 'package:bookify/src/core/components/text_app.dart';
 import 'package:bookify/src/core/router/app_rout_enum.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
-import 'package:bookify/src/features/signup/presenter/components/build_progress_indicator.dart';
-import 'package:bookify/src/features/signup/presenter/pages/account_page.dart';
-import 'package:bookify/src/features/signup/presenter/pages/verification_account_page.dart';
-import 'package:bookify/src/features/signup/presenter/pages/details_account_page.dart';
-import 'package:bookify/src/features/signup/presenter/pages/location_info_page.dart';
-import 'package:bookify/src/features/signup/presenter/pages/terms_page.dart';
+import 'package:bookify/src/features/auth/signup/presenter/components/build_progress_indicator.dart';
+import 'package:bookify/src/features/auth/signup/presenter/pages/account_page.dart';
+import 'package:bookify/src/features/auth/signup/presenter/pages/verification_account_page.dart';
+import 'package:bookify/src/features/auth/signup/presenter/pages/details_account_page.dart';
+import 'package:bookify/src/features/auth/signup/presenter/pages/location_info_page.dart';
+import 'package:bookify/src/features/auth/signup/presenter/pages/terms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -35,8 +35,6 @@ class _SignUpPageState extends State<SignUpPage> {
       'Conta': AccountPage(),
       'Verificação': VerificationCodePage(),
       'Termos': TermsPage(),
-      //'Aceite os termos': YourCustomWidget3(),
-      //'Confirme seus dados': YourCustomWidget3(),
     };
   }
 

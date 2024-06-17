@@ -1,5 +1,5 @@
-import 'package:bookify/src/features/signup/presenter/components/build_text_body.dart';
-import 'package:bookify/src/features/signup/presenter/components/build_text_title.dart';
+import 'package:bookify/src/features/auth/signup/presenter/components/build_text_body.dart';
+import 'package:bookify/src/features/auth/signup/presenter/components/build_text_title.dart';
 import 'package:bookify/src/shared/text.dart';
 import 'package:flutter/material.dart';
 

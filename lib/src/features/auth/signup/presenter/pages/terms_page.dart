@@ -1,7 +1,7 @@
 import 'package:bookify/src/core/components/text_app.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
-import 'package:bookify/src/features/signup/presenter/components/build_terms_and_conditions.dart';
+import 'package:bookify/src/features/auth/signup/presenter/components/build_terms_and_conditions.dart';
 import 'package:bookify/src/shared/text.dart';
 import 'package:flutter/material.dart';
 

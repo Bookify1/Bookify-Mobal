@@ -8,7 +8,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.white,
-      surfaceTintColor: AppColors.white,
       toolbarHeight: 60,
       leadingWidth: double.maxFinite,
       leading: Padding(
@@ -23,13 +22,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image: const DecorationImage(
-                    image: AssetImage('assets/images/logo.jpeg'),
-                    fit: BoxFit.cover),
+                  image: AssetImage('assets/images/logo.jpeg'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             IconButton(
               icon: const Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+                showSearchPopup(context);
+              },
             ),
           ],
         ),
@@ -39,4 +41,51 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
+
+  void showSearchPopup(BuildContext context) {
+    showModalBottomSheet(
+      useSafeArea: true,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height, // Altura da tela inteira
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Hinted search text',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: [
+                    ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage('assets/profile_picture.png'),
+                      ),
+                      title: Text('Yoo, Haneul'),
+                      subtitle: Text(
+                        'Q3 performance summary\nWe will discuss our sales performan...',
+                      ),
+                      trailing: Text('8:22 AM'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

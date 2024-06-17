@@ -43,6 +43,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
         const SizedBox(height: 10),
         const TextApp(
           label: 'Enviaremos um código de verificação para seu e-mail',
+          overflow: TextOverflow.visible,
           color: AppColors.gray,
         ),
         const SizedBox(height: 15),
