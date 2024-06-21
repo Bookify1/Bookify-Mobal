@@ -17,3 +17,13 @@ String? passwordValidator(String? value) {
   }
   return null;
 }
+
+String? displayNameValidator(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Por favor, insira sua senha';
+  }
+  if (value.length < 4) {
+    return 'A senha deve ter pelo menos 6 caracteres';
+  }
+  return null;
+}

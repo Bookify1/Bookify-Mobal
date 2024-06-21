@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 class ButtonSubmitForm extends StatelessWidget {
   final String label;
   final VoidCallback function;
+  final bool isLoading;
   final Color? color;
+
   const ButtonSubmitForm({
     super.key,
     required this.label,
     required this.function,
+    this.isLoading = false,
     this.color,
   });
 
@@ -40,15 +41,19 @@ class ButtonSubmitForm extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: function,
-      child: Text(
-        label,
-        style: GoogleFonts.poppins(
-          fontSize: AppFontSize.large,
-          fontWeight: FontWeight.w600,
-          color: AppColors.white,
-        ),
-      ),
+      onPressed: isLoading ? null : function,
+      child: isLoading
+          ? const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+            )
+          : Text(
+              label,
+              style: GoogleFonts.poppins(
+                fontSize: AppFontSize.large,
+                fontWeight: FontWeight.w600,
+                color: AppColors.white,
+              ),
+            ),
     );
   }
 }

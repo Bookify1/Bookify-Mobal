@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
   _SignInPageState createState() => _SignInPageState();
@@ -83,12 +83,11 @@ class _SignInPageState extends State<SignInPage> {
                 validator: passwordValidator,
               ),
               const SizedBox(height: 15),
-              if (authState.isLoading) const CircularProgressIndicator(),
-              if (!authState.isLoading)
-                ButtonSubmitForm(
-                  label: 'Entrar',
-                  function: () => _signIn(context),
-                ),
+              ButtonSubmitForm(
+                label: 'Entrar',
+                function: () => _signIn(context),
+                isLoading: authState.isLoading, // Passar isLoading para o botão
+              ),
             ],
           ),
         ),

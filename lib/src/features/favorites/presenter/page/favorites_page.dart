@@ -82,68 +82,74 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
     return Scaffold(
       backgroundColor: AppColors.transparent,
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 28,
-              right: 28,
-              top: 100,
-              bottom: 20,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const TextApp(
-                  label: 'Seus favoritos',
-                  fontSize: AppFontSize.xxxLarge,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.black,
-                ),
-                IconButton(
-                  onPressed: _fetchBooks,
-                  icon: const Icon(
-                    Icons.refresh,
+      body: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: 1.sh,
+          minWidth: 1.sw,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 28,
+                right: 28,
+                top: 100,
+                bottom: 20,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const TextApp(
+                    label: 'Seus favoritos',
+                    fontSize: AppFontSize.xxxLarge,
+                    fontWeight: FontWeight.w600,
                     color: AppColors.black,
                   ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: FutureBuilder<List<SettingsBooks>>(
-              future: _bookService.fetchBooksUser(userId),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return const Center(child: Text('Erro ao carregar livros.'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('Nenhum livro encontrado.'));
-                } else {
-                  final books = snapshot.data!;
-                  final favoriteBooks = getFavoriteBooks(books);
-
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      left: 28,
-                      right: 28,
+                  IconButton(
+                    onPressed: _fetchBooks,
+                    icon: const Icon(
+                      Icons.refresh,
+                      color: AppColors.black,
                     ),
-                    child: RefreshIndicator(
-                      onRefresh: _fetchBooks,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: FutureBuilder<List<SettingsBooks>>(
+                future: _bookService.fetchBooksUser(userId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                        child: Text('Erro ao carregar livros.'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                        child: Text('Nenhum livro encontrado.'));
+                  } else {
+                    final books = snapshot.data!;
+                    final favoriteBooks = getFavoriteBooks(books);
+
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                        left: 28,
+                        right: 28,
+                        bottom: 120,
+                      ),
                       child: FavoriteBooksSection(
                         settingsBooks: favoriteBooks,
                         addCartAction: _addToCart,
                         toggleFavoriteAction: _toggleFavorite,
                       ),
-                    ),
-                  );
-                }
-              },
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

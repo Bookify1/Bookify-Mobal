@@ -21,13 +21,15 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
   Future<void> _register(BuildContext context) async {
     if (_formKey.currentState?.validate() ?? false) {
       final authState = context.read<AuthSignupState>();
-      await authState.register(_emailController.text, _passwordController.text);
+      await authState.register(_emailController.text, _passwordController.text,
+          _displayNameController.text);
       if (authState.errorMessage != null) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
@@ -80,6 +82,13 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               const SizedBox(height: 15),
               TextFieldForm(
+                controller: _displayNameController,
+                labelText: 'Nome do Usuario',
+                hintText: 'user',
+                validator: displayNameValidator,
+              ),
+              const SizedBox(height: 15),
+              TextFieldForm(
                 controller: _passwordController,
                 labelText: 'Senha',
                 hintText: 'Sua senha',
@@ -100,12 +109,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
               ),
               const SizedBox(height: 15),
-              if (authState.isLoading) const CircularProgressIndicator(),
-              if (!authState.isLoading)
-                ButtonSubmitForm(
-                  label: 'Registrar',
-                  function: () => _register(context),
-                ),
+              ButtonSubmitForm(
+                label: 'Registrar',
+                function: () => _register(context),
+                isLoading: authState.isLoading,
+              ),
             ],
           ),
         ),

@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:bookify/src/core/models/book.dart';
 import 'package:bookify/src/core/models/settings_book.dart';
+import 'package:bookify/src/core/models/book_loan.dart';
 import 'package:bookify/src/core/services/book_service.dart';
 import 'package:bookify/src/features/auth/data/auth_repository.dart';
 import 'package:bookify/src/features/bookify/presenter/components/bookify_list.dart';
 import 'package:bookify/src/features/bookify/presenter/widgets/bookify_app_bar.dart';
-import 'package:flutter/material.dart';
 
 class BookifyPage extends StatefulWidget {
   const BookifyPage({super.key});
@@ -17,6 +18,7 @@ class _BookifyPageState extends State<BookifyPage> {
   List<SettingsBooks> settingsBooks = [];
   List<Book> allBooks = [];
   final BookService _bookService = BookService();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -114,6 +116,66 @@ class _BookifyPageState extends State<BookifyPage> {
     }
   }
 
+  Future<void> _loanSelectedBooks() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final userId = AuthRepository.idUser!;
+    final selectedBooks = settingsBooks.where((book) => book.selected).toList();
+
+    if (selectedBooks.isEmpty) {
+      setState(() {
+        isLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Selecione pelo menos um livro para empréstimo.'),
+        ),
+      );
+      return;
+    }
+
+    final bookLoans = selectedBooks.map((settingsBook) {
+      return BookLoan(
+        book: settingsBooks
+            .firstWhere((book) => book.id == settingsBook.id)
+            .book!,
+        userId: userId,
+        bookId: settingsBook.id,
+        loanDate: DateTime.now(),
+        returnDate: DateTime.now().add(const Duration(days: 7)),
+      );
+    }).toList();
+
+    try {
+      for (var loan in bookLoans) {
+        await _bookService.createBookLoan(loan);
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Empréstimos criados com sucesso!'),
+        ),
+      );
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao criar empréstimos: $e'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -121,6 +183,7 @@ class _BookifyPageState extends State<BookifyPage> {
         BookifyAppBar(
           selectedCount: settingsBooks.where((book) => book.selected).length,
           refresh: _fetchBooks,
+          toBookLoan: _loanSelectedBooks,
         ),
         BookifyList(
           books: settingsBooks,

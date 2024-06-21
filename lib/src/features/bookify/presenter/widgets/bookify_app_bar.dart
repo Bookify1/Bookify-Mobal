@@ -6,10 +6,12 @@ import 'package:bookify/src/core/styles/app_font_size.dart';
 class BookifyAppBar extends StatelessWidget {
   final int selectedCount;
   final VoidCallback refresh;
+  final VoidCallback toBookLoan;
   const BookifyAppBar({
     super.key,
     required this.selectedCount,
     required this.refresh,
+    required this.toBookLoan,
   });
 
   @override
@@ -80,7 +82,7 @@ class BookifyAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            onPressed: () {},
+            onPressed: toBookLoan,
             child: TextApp(
               fontWeight: FontWeight.w500,
               color: AppColors.white,

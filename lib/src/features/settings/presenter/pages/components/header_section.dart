@@ -1,13 +1,16 @@
 import 'package:bookify/src/core/components/text_app.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HeaderSection extends StatelessWidget {
-  const HeaderSection({super.key});
+  const HeaderSection({Key? key});
 
   @override
   Widget build(BuildContext context) {
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
@@ -110,7 +113,7 @@ class HeaderSection extends StatelessWidget {
         Positioned(
           top: 250,
           child: TextApp(
-            label: 'Gustavo',
+            label: currentUser?.displayName ?? 'Unknown',
             fontSize: AppFontSize.xxxLarge,
             fontWeight: FontWeight.bold,
             color: AppColors.black.withOpacity(.7),

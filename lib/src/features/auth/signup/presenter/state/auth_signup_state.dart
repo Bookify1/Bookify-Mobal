@@ -14,11 +14,14 @@ class AuthSignupState with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  Future<void> register(String email, String password) async {
+  Future<void> register(
+      String email, String password, String displayName) async {
     _isLoading = true;
     notifyListeners();
     try {
-      await _authRepository.register(email, password);
+      await _authRepository.register(email, password).then((value) =>
+          _authRepository.currentUser?.updateDisplayName(displayName));
+
       _user = _authRepository.currentUser;
       _errorMessage = null;
     } on FirebaseAuthException catch (e) {

@@ -1,3 +1,4 @@
+import 'package:bookify/src/core/models/book_loan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bookify/src/core/models/book.dart';
 import 'package:bookify/src/core/models/settings_book.dart';
@@ -121,15 +122,52 @@ class BookService {
           .get();
 
       if (snapshot.exists) {
-        // Se o documento existir, retorna um objeto SettingsBooks
         return SettingsBooks.fromJson(snapshot.data() as Map<String, dynamic>);
       } else {
-        // Se o documento não existir, retorna null
         return null;
       }
     } catch (e) {
-      // Captura e relança o erro
       print('Erro ao buscar livros: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> createBookLoan(BookLoan bookLoan) async {
+    try {
+      QuerySnapshot activeLoansSnapshot = await _firestore
+          .collection('bookLoans')
+          .where('userId', isEqualTo: bookLoan.userId)
+          .where('returned', isEqualTo: false)
+          .get();
+
+      if (activeLoansSnapshot.docs.length >= 2) {
+        throw Exception('Você já possui dois empréstimos ativos.');
+      }
+
+      // Create the new book loan
+      DocumentReference bookLoanRef = _firestore.collection('bookLoans').doc();
+      await bookLoanRef.set(bookLoan.toJson());
+      bookLoan.id = bookLoanRef.id;
+    } catch (e) {
+      print('Erro ao criar empréstimo: $e');
+      rethrow;
+    }
+  }
+
+  Future<List<BookLoan>> fetchBookLoans(String userId) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('bookLoans')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      List<BookLoan> bookLoans = snapshot.docs.map((doc) {
+        return BookLoan.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+
+      return bookLoans;
+    } catch (e) {
+      print('Erro ao buscar empréstimos: $e');
       rethrow;
     }
   }
