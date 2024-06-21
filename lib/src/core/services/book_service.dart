@@ -78,7 +78,7 @@ class BookService {
             .doc(userId)
             .collection('Livros')
             .doc(book.id.toString());
-        batch.update(userBookRef, book.toJson());
+        batch.set(userBookRef, book.toJson(), SetOptions(merge: true));
       }
 
       await batch.commit();
@@ -103,7 +103,7 @@ class BookService {
           .doc(userId)
           .collection('Livros')
           .doc(book.id)
-          .set(settingsBook.toJson());
+          .set(settingsBook.toJson(), SetOptions(merge: true));
       return settingsBook;
     } catch (e) {
       print('Erro ao atualizar o status de favorito: $e');
@@ -121,11 +121,14 @@ class BookService {
           .get();
 
       if (snapshot.exists) {
+        // Se o documento existir, retorna um objeto SettingsBooks
         return SettingsBooks.fromJson(snapshot.data() as Map<String, dynamic>);
       } else {
+        // Se o documento não existir, retorna null
         return null;
       }
     } catch (e) {
+      // Captura e relança o erro
       print('Erro ao buscar livros: $e');
       rethrow;
     }

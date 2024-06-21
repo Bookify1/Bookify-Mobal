@@ -8,12 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 class ButtonSubmitForm extends StatelessWidget {
   final String label;
   final VoidCallback function;
-  final Color? color; // Adicionando o parâmetro de cor
+  final Color? color;
   const ButtonSubmitForm({
-    Key? key,
+    super.key,
     required this.label,
     required this.function,
-    this.color, // Configurando cor como opcional
+    this.color,
   });
 
   @override
@@ -25,11 +25,10 @@ class ButtonSubmitForm extends StatelessWidget {
         ),
         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
           (Set<MaterialState> states) {
-            // Lógica para definir a cor do botão com base no parâmetro
             if (color != null) {
               return color!;
             }
-            return AppColors.blue; // Cor padrão se não for especificada
+            return AppColors.blue;
           },
         ),
         padding: const MaterialStatePropertyAll(

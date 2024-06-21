@@ -22,11 +22,9 @@ class _MainPageState extends State<MainPage> {
   void _goBranch(int index) {
     setState(() {
       selectedIndex = index;
+      widget.navigationShell.goBranch(index,
+          initialLocation: index == widget.navigationShell.currentIndex);
     });
-    widget.navigationShell.goBranch(
-      index,
-      initialLocation: index == widget.navigationShell.currentIndex,
-    );
   }
 
   @override

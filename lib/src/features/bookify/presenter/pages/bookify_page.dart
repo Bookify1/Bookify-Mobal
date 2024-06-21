@@ -1,6 +1,10 @@
+import 'package:bookify/src/core/models/book.dart';
+import 'package:bookify/src/core/models/settings_book.dart';
+import 'package:bookify/src/core/services/book_service.dart';
+import 'package:bookify/src/features/auth/data/auth_repository.dart';
 import 'package:bookify/src/features/bookify/presenter/components/bookify_list.dart';
-import 'package:flutter/material.dart';
 import 'package:bookify/src/features/bookify/presenter/widgets/bookify_app_bar.dart';
+import 'package:flutter/material.dart';
 
 class BookifyPage extends StatefulWidget {
   const BookifyPage({super.key});
@@ -10,92 +14,117 @@ class BookifyPage extends StatefulWidget {
 }
 
 class _BookifyPageState extends State<BookifyPage> {
-  List<bool> isCheckedList = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
+  List<SettingsBooks> settingsBooks = [];
+  List<Book> allBooks = [];
+  final BookService _bookService = BookService();
 
-  List<bool> isFavoritedList = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _fetchBooks();
+  }
 
-  int get selectedCount => isCheckedList.where((isChecked) => isChecked).length;
+  Future<void> _fetchBooks() async {
+    final userId = AuthRepository.idUser!;
 
-  void _toggleCheck(int index) {
-    if (isCheckedList[index]) {
+    try {
+      final fetchedSettingsBooks = await _bookService.fetchBooksUser(userId);
+      final fetchedAllBooks = await _bookService.fetchBooks();
       setState(() {
-        isCheckedList[index] = false;
+        settingsBooks = fetchedSettingsBooks;
+        allBooks = fetchedAllBooks;
       });
-    } else {
-      if (selectedCount < 2) {
-        setState(() {
-          isCheckedList[index] = true;
-        });
-      } else {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Você só pode selecionar até 2 livros.'),
-          ),
-        );
-      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao buscar livros: $e'),
+        ),
+      );
     }
   }
 
-  void _deleteItem(int index) {
-    setState(() {
-      isCheckedList.removeAt(index);
-      isFavoritedList.removeAt(index);
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Você acaba de remover um livro da sua lista'),
-        ),
-      );
-    });
+  Book _findBookById(String id) {
+    return allBooks.firstWhere((book) => book.id == id);
   }
 
-  void _favoriteItem(int index) {
-    setState(() {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      isFavoritedList[index] = !isFavoritedList[index];
-      if (isFavoritedList[index] == true) {
+  Future<void> _toggleCheck(int index) async {
+    final userId = AuthRepository.idUser!;
+
+    final selectedCount = settingsBooks.where((book) => book.selected!).length;
+
+    if (selectedCount < 2 || settingsBooks[index].selected!) {
+      setState(() {
+        settingsBooks[index] = settingsBooks[index]
+            .copyWith(selected: !settingsBooks[index].selected!);
+      });
+
+      try {
+        await _bookService.updateBooks(userId, [settingsBooks[index]]);
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Você acaba de favoritar um livro da sua lista'),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Você acaba de desfavoritar um livro da sua lista'),
+          SnackBar(
+            content: Text('Erro ao atualizar livros: $e'),
           ),
         );
       }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Você só pode selecionar até 2 livros.'),
+        ),
+      );
+    }
+  }
+
+  Future<void> _deleteItem(int index) async {
+    final userId = AuthRepository.idUser!;
+
+    setState(() {
+      settingsBooks[index] =
+          settingsBooks[index].copyWith(onCart: !settingsBooks[index].onCart);
     });
+
+    try {
+      await _bookService.updateBooks(userId, [settingsBooks[index]]);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao atualizar livros: $e'),
+        ),
+      );
+    }
+  }
+
+  Future<void> _favoriteItem(int index) async {
+    final userId = AuthRepository.idUser!;
+
+    setState(() {
+      settingsBooks[index] = settingsBooks[index]
+          .copyWith(favorite: !settingsBooks[index].favorite);
+    });
+
+    try {
+      await _bookService.updateBooks(userId, [settingsBooks[index]]);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao atualizar livros: $e'),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        BookifyAppBar(selectedCount: selectedCount),
+        BookifyAppBar(
+          selectedCount: settingsBooks.where((book) => book.selected).length,
+          refresh: _fetchBooks,
+        ),
         BookifyList(
-          isCheckedList: isCheckedList,
-          isFavoritedList: isFavoritedList,
+          books: settingsBooks,
+          findBookById: _findBookById,
           toggleCheck: _toggleCheck,
           deleteItem: _deleteItem,
           favoriteItem: _favoriteItem,

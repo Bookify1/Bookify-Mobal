@@ -49,7 +49,7 @@ class BookLoanCard extends StatelessWidget {
             ),
           ),
           child: Image.asset(
-            'assets/images/mock.jpg',
+            'assets/images/book_placeholder.jpg',
             fit: BoxFit.cover,
           ),
         ),

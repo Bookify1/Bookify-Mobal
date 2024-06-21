@@ -21,12 +21,12 @@ class _TermsPageState extends State<TermsPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: AppColors.gray,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextApp(
@@ -45,7 +45,7 @@ class _TermsPageState extends State<TermsPage> {
             ],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         const TextApp(
           label: 'Termos e condições ',
           fontSize: AppFontSize.xxxLarge,
@@ -59,16 +59,16 @@ class _TermsPageState extends State<TermsPage> {
         const SizedBox(height: 15),
         Expanded(
           child: Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: AppColors.gray,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Scrollbar(
               thumbVisibility: true,
-              radius: Radius.circular(8),
+              radius: const Radius.circular(8),
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(right: 10),
                 child: RichText(
                   text: TextSpan(
                     children: buildTermsAndConditions(),
@@ -78,7 +78,7 @@ class _TermsPageState extends State<TermsPage> {
             ),
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -91,7 +91,7 @@ class _TermsPageState extends State<TermsPage> {
                 });
               },
             ),
-            TextApp(
+            const TextApp(
               label: 'Aceite os termos e condições',
               color: AppColors.black,
             )

@@ -8,8 +8,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.white,
+      surfaceTintColor: AppColors.white,
       toolbarHeight: 60,
       leadingWidth: double.maxFinite,
+      elevation: 0,
       leading: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Row(
@@ -49,7 +51,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height, // Altura da tela inteira
           child: Column(
             children: [
@@ -58,7 +60,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: 'Hinted search text',
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -67,7 +69,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               Expanded(
                 child: ListView(
-                  children: [
+                  children: const [
                     ListTile(
                       leading: CircleAvatar(
                         backgroundImage:

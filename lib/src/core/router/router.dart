@@ -1,14 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bookify/src/features/auth/signin/presenter/pages/signin_page.dart';
+import 'package:bookify/src/features/auth/signup/presenter/pages/signup_page.dart';
+import 'package:bookify/src/features/bookFullPage/pages/book_full_page.dart';
 import 'package:bookify/src/features/bookLoans/presenter/pages/book_loans_page.dart';
 import 'package:bookify/src/features/bookify/presenter/pages/bookify_page.dart';
 import 'package:bookify/src/features/favorites/presenter/page/favorites_page.dart';
 import 'package:bookify/src/features/home/presenter/page/home_page.dart';
 import 'package:bookify/src/features/settings/presenter/pages/pages/settings_page.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:bookify/src/features/intro/presenter/pages/intro_page.dart';
 import 'package:bookify/src/features/main/presenter/pages/main_wrapper_page.dart';
-import 'package:bookify/src/features/signin/presenter/pages/signin_page.dart';
-import 'package:bookify/src/features/signup/presenter/pages/signup_page.dart';
 import 'package:bookify/src/features/welcome/presenter/pages/welcome_page.dart';
 
 class AppNavigation {
@@ -72,6 +73,16 @@ class AppNavigation {
             const SignUpPage(),
       ),
 
+      /// Book Details Page
+      GoRoute(
+        path: "/bookDetails/:bookId",
+        name: "BookDetails",
+        builder: (BuildContext context, GoRouterState state) {
+          final bookId = state.pathParameters['bookId'] ?? '';
+          return BookDetailsScreen(bookId: bookId);
+        },
+      ),
+
       /// Main Page (with bottom navigation)
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -132,7 +143,7 @@ class AppNavigation {
                     const SettingsPage(),
               ),
             ],
-          )
+          ),
         ],
       ),
 

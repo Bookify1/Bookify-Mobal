@@ -1,28 +1,27 @@
-import 'package:bookify/src/core/styles/app_font_size.dart';
+import 'package:bookify/src/core/models/settings_book.dart';
+import 'package:bookify/src/core/models/book.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:bookify/src/core/styles/app_font_size.dart';
 import 'package:bookify/src/core/components/text_app.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 
 class BookifyCard extends StatelessWidget {
-  final String title;
-  final String author;
-  final String imageUrl;
-  final bool isChecked;
-  final bool isFavorited;
+  final SettingsBooks settingsBook;
+  final Book book;
+  final bool select;
   final VoidCallback onTap;
   final VoidCallback onFavorite;
   final VoidCallback removeItem;
 
   const BookifyCard({
     super.key,
-    required this.title,
-    required this.author,
-    required this.imageUrl,
-    required this.isChecked,
-    required this.isFavorited,
+    required this.settingsBook,
+    required this.book,
     required this.onTap,
     required this.onFavorite,
     required this.removeItem,
+    required this.select,
   });
 
   @override
@@ -39,9 +38,16 @@ class BookifyCard extends StatelessWidget {
               topRight: Radius.circular(8),
             ),
           ),
-          child: Image.asset(
-            imageUrl,
+          child: CachedNetworkImage(
+            imageUrl: book.coverImage,
             fit: BoxFit.cover,
+            placeholder: (context, url) => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => Image.asset(
+              'assets/images/book_placeholder.jpg',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         const SizedBox(width: 20),
@@ -53,14 +59,14 @@ class BookifyCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextApp(
-                    label: title,
+                    label: book.title,
                     fontSize: AppFontSize.large,
                     fontWeight: FontWeight.w600,
                     color: AppColors.black,
                   ),
                   const SizedBox(height: 4),
                   TextApp(
-                    label: author,
+                    label: book.author,
                     color: AppColors.gray,
                   ),
                 ],
@@ -87,8 +93,11 @@ class BookifyCard extends StatelessWidget {
                   ),
                   IconButton(
                     icon: Icon(
-                        isFavorited ? Icons.bookmark : Icons.bookmark_border),
-                    color: AppColors.yellow,
+                      settingsBook.favorite
+                          ? Icons.bookmark
+                          : Icons.bookmark_border,
+                      color: AppColors.yellow,
+                    ),
                     onPressed: onFavorite,
                   )
                 ],
@@ -97,7 +106,7 @@ class BookifyCard extends StatelessWidget {
           ),
         ),
         Checkbox(
-          value: isChecked,
+          value: select,
           onChanged: (bool? value) {
             onTap();
           },

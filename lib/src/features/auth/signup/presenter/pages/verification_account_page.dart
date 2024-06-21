@@ -4,6 +4,8 @@ import 'package:bookify/src/core/styles/app_font_size.dart';
 import 'package:flutter/material.dart';
 
 class VerificationCodePage extends StatefulWidget {
+  const VerificationCodePage({super.key});
+
   @override
   _VerificationCodePageState createState() => _VerificationCodePageState();
 }
@@ -11,12 +13,16 @@ class VerificationCodePage extends StatefulWidget {
 class _VerificationCodePageState extends State<VerificationCodePage> {
   final List<TextEditingController> _controllers =
       List.generate(4, (index) => TextEditingController());
-  List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
+  final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
 
   @override
   void dispose() {
-    _controllers.forEach((controller) => controller.dispose());
-    _focusNodes.forEach((focusNode) => focusNode.dispose());
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    for (var focusNode in _focusNodes) {
+      focusNode.dispose();
+    }
     super.dispose();
   }
 

@@ -1,4 +1,4 @@
-import 'package:bookify/src/features/auth/signup/data/auth_repository.dart';
+import 'package:bookify/src/features/auth/data/auth_repository.dart';
 
 class RegisterUseCase {
   final AuthRepository authRepository;

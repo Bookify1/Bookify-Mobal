@@ -1,17 +1,14 @@
 import 'package:bookify/src/core/components/button_submit.dart';
 import 'package:bookify/src/core/components/text_app.dart';
+import 'package:bookify/src/core/components/text_field_form.dart';
 import 'package:bookify/src/core/router/app_rout_enum.dart';
 import 'package:bookify/src/core/styles/app_colors.dart';
 import 'package:bookify/src/core/styles/app_font_size.dart';
-import 'package:bookify/src/features/auth/signup/presenter/components/build_progress_indicator.dart';
-import 'package:bookify/src/features/auth/signup/presenter/pages/account_page.dart';
-import 'package:bookify/src/features/auth/signup/presenter/pages/verification_account_page.dart';
-import 'package:bookify/src/features/auth/signup/presenter/pages/details_account_page.dart';
-import 'package:bookify/src/features/auth/signup/presenter/pages/location_info_page.dart';
-import 'package:bookify/src/features/auth/signup/presenter/pages/terms_page.dart';
+import 'package:bookify/src/core/utils/constant/validators.dart';
+import 'package:bookify/src/features/auth/signup/presenter/state/auth_signup_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -21,124 +18,94 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  late final Map<String, Widget> _dynamicWidgets;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
-  int _step = 1;
-  int _remainingSteps = 4;
-
-  @override
-  void initState() {
-    super.initState();
-    _dynamicWidgets = {
-      'Informações': DetailsAccountPage(),
-      'Localização': LocationPage(),
-      'Conta': AccountPage(),
-      'Verificação': VerificationCodePage(),
-      'Termos': TermsPage(),
-    };
-  }
-
-  void nextStep() {
-    if (_step < _dynamicWidgets.length) {
-      setState(() {
-        _step++;
-        _remainingSteps--;
-      });
-    }
-  }
-
-  void backStep() {
-    if (_step > 1) {
-      setState(() {
-        _step--;
-        _remainingSteps++;
-      });
+  Future<void> _register(BuildContext context) async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final authState = context.read<AuthSignupState>();
+      await authState.register(_emailController.text, _passwordController.text);
+      if (authState.errorMessage != null) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(authState.errorMessage ?? 'Erro desconhecido')),
+        );
+      } else {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Parabéns, conta criada com sucesso!')),
+        );
+        AppRouteEnum currentPath = AppRouteEnum.signin;
+        String routePath = currentPath.name;
+        context.pushReplacement(routePath);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthSignupState>();
+
     return Scaffold(
+      appBar: AppBar(title: const Text('Registrar')),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Positioned(
-                          left: 0,
-                          child: IconButton(
-                            icon: Icon(Icons.arrow_back_ios),
-                            onPressed: backStep,
-                          ),
-                        ),
-                        Center(
-                          child: TextApp(
-                            label: _dynamicWidgets.keys.elementAt(_step - 1),
-                            color: AppColors.black,
-                            fontSize: AppFontSize.xxxLarge,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    TextApp(
-                      label: 'Step $_step of ${_remainingSteps + _step}',
-                      color: AppColors.black,
-                    ),
-                    const SizedBox(height: 8),
-                    BuildProgressIndicator(
-                      step: _step,
-                      remainingSteps: _remainingSteps,
-                    ),
-                  ],
+              const TextApp(
+                label: 'Criar Conta',
+                fontSize: AppFontSize.xxxLarge,
+                fontWeight: FontWeight.w400,
+                color: AppColors.black,
+              ),
+              const SizedBox(height: 10),
+              const TextApp(
+                label:
+                    'Por favor, preencha os campos abaixo para criar sua conta.',
+                color: AppColors.gray,
+              ),
+              const SizedBox(height: 15),
+              TextFieldForm(
+                controller: _emailController,
+                labelText: 'Email',
+                hintText: 'exemplo@gmail.com',
+                validator: emailValidator,
+              ),
+              const SizedBox(height: 15),
+              TextFieldForm(
+                controller: _passwordController,
+                labelText: 'Senha',
+                hintText: 'Sua senha',
+                obscureText: true,
+                validator: passwordValidator,
+              ),
+              const SizedBox(height: 15),
+              TextFieldForm(
+                controller: _confirmPasswordController,
+                labelText: 'Confirme sua senha',
+                hintText: 'Sua senha',
+                obscureText: true,
+                validator: (value) {
+                  if (value != _passwordController.text) {
+                    return 'As senhas não coincidem';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 15),
+              if (authState.isLoading) const CircularProgressIndicator(),
+              if (!authState.isLoading)
+                ButtonSubmitForm(
+                  label: 'Registrar',
+                  function: () => _register(context),
                 ),
-              ),
-              SizedBox(
-                height: .6.sh - 28,
-                child: _dynamicWidgets.values.elementAt(_step - 1),
-              ),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: ButtonSubmitForm(
-                      label: 'Continuar',
-                      function: nextStep,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const TextApp(
-                        label: 'Possui uma conta?',
-                        color: AppColors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          AppRouteEnum currentPath = AppRouteEnum.signin;
-                          String routePath = currentPath.name;
-                          context.pushReplacement(routePath);
-                        },
-                        child: const TextApp(
-                          label: "Entre",
-                          color: AppColors.blue,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ],
           ),
         ),

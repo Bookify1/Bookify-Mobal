@@ -5,10 +5,11 @@ import 'package:bookify/src/core/styles/app_font_size.dart';
 
 class BookifyAppBar extends StatelessWidget {
   final int selectedCount;
-
+  final VoidCallback refresh;
   const BookifyAppBar({
     super.key,
     required this.selectedCount,
+    required this.refresh,
   });
 
   @override
@@ -24,15 +25,28 @@ class BookifyAppBar extends StatelessWidget {
       excludeHeaderSemantics: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(
-          padding: const EdgeInsets.only(left: 28, right: 28, top: 100),
+          padding: const EdgeInsets.only(left: 28, right: 28, top: 80),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TextApp(
-                label: 'Emprestar',
-                color: AppColors.black,
-                fontSize: AppFontSize.xxxLarge,
-                fontWeight: FontWeight.w600,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const TextApp(
+                    label: 'Emprestar',
+                    color: AppColors.black,
+                    fontSize: AppFontSize.xxxLarge,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  IconButton(
+                    onPressed: refresh,
+                    icon: const Icon(
+                      Icons.refresh,
+                      color: AppColors.black,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               const TextApp(
