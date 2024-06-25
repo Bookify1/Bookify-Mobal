@@ -144,7 +144,6 @@ class BookService {
         throw Exception('Você já possui dois empréstimos ativos.');
       }
 
-      // Create the new book loan
       DocumentReference bookLoanRef = _firestore.collection('bookLoans').doc();
       await bookLoanRef.set(bookLoan.toJson());
       bookLoan.id = bookLoanRef.id;

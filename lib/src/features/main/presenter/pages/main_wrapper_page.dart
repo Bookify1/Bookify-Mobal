@@ -29,31 +29,33 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      backgroundColor: AppColors.white,
-      appBar: widget.navigationShell.currentIndex == 4
-          ? null
-          : const CustomAppBar(),
-      body: Stack(
-        children: [
-          Positioned(
-            height: 1.sh,
-            width: 1.sw,
-            child: Image.asset(
-              'assets/images/bg.png',
-              fit: BoxFit.fitHeight,
+    return SafeArea(
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        backgroundColor: AppColors.white,
+        appBar: widget.navigationShell.currentIndex == 4
+            ? null
+            : const CustomAppBar(),
+        body: Stack(
+          children: [
+            Positioned(
+              height: 1.sh,
+              width: 1.sw,
+              child: Image.asset(
+                'assets/images/bg.png',
+                fit: BoxFit.fitHeight,
+              ),
             ),
-          ),
-          widget.navigationShell,
-        ],
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        index: selectedIndex,
-        onTap: (int index) {
-          _goBranch(index);
-        },
+            widget.navigationShell,
+          ],
+        ),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          index: selectedIndex,
+          onTap: (int index) {
+            _goBranch(index);
+          },
+        ),
       ),
     );
   }

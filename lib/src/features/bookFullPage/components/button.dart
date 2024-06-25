@@ -18,21 +18,21 @@ class ButtonsSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: AppColors.black,
-            padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 13),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-          onPressed: () {},
-          child: const TextApp(
-            fontWeight: FontWeight.w500,
-            color: AppColors.white,
-            label: 'Empreste esse livro',
-          ),
-        ),
+        // TextButton(
+        //   style: TextButton.styleFrom(
+        //     backgroundColor: AppColors.black,
+        //     padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 13),
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(5),
+        //     ),
+        //   ),
+        //   onPressed: () {},
+        //   child: const TextApp(
+        //     fontWeight: FontWeight.w500,
+        //     color: AppColors.white,
+        //     label: 'Empreste esse livro',
+        //   ),
+        // ),
         IconButton(
           icon: Icon(
             isFavorite ? Icons.bookmark : Icons.bookmark_border_outlined,
